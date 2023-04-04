@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block title %} Real Estate {% endblock %}
+{% block homeactive %} active {% endblock homeactive %}
+
+{% block body %}
+<div class="container mt-5 mb-3">
+    <div class="row">
+        {% for property in properties %}
+        <div class="col-lg-4 my-4">
+            <div class="card shadow" style="width: 20rem; height: 30rem;">
+                <img src="/{{property.photo_main}}" class="card-img-top" alt="..." height="260px">
+                <div class="card-body">
+                  <h5 class="card-title">{{property.title}} <br></h5>
+                  <p class="card-text">{{property.location}}</p>
+                  &nbsp; &nbsp; &nbsp;<a href="property/{{property.id}}/" class="btn btn-primary">View Details</a>
+                  <p></p>
+                  {% if property.agent == user %} 
+                  <form action="{% url 'delete_property' property.id %}" method="POST" class="d-inline-block">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger mx-4">Delete Property</button><p></p>
+                    &nbsp; &nbsp; &nbsp;<a href="{% url 'interested_users' property.id %}" class="btn btn-sm btn-outline-secondary">View Interested Users</a>
+                  </form>
+                  {% endif %}
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

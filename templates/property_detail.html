@@ -1,0 +1,57 @@
+
+{% extends 'base.html' %}
+{% block title %} Property Detail {% endblock %}
+{% block homeactive %} active {% endblock homeactive %}
+
+{% block body %}
+<div class="container mx-auto">
+  <h4>Details about {{property.title}}</h4>
+  <div class="row">
+      <div class="col-md-9">
+        <div class="card mb-4 shadow-sm" marginLeft="100px">
+          <img class="card-img-top" src="/{{ property.photo_main }}" alt="{{ property.title }}" width="50px" height="400px">
+          <div class="card-body">
+            <h5 class="card-title">{{ property.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-muted">{{ property.address }}</h6>
+            <!-- <h6 class="card-subtitle mb-2 text-muted">{{ property.location }}</h6> -->
+            <p class="card-text">{{ property.description }}</p>
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Price: {{ property.price }}</li>
+              <li class="list-group-item">Area: {{ property.built_up_area_in_sqft }} sqft</li>
+              <li class="list-group-item">Bedrooms: {{ property.bedrooms }}</li>
+              <li class="list-group-item">Bathrooms: {{ property.bathrooms }}</li>
+              <!-- <button type="submit" class="btn btn-sm btn-outline-secondary">Contact Agent</button> -->
+            </ul>
+            {% if request.user.is_authenticated %}
+                <form action="{% url 'contact_agent' property.id %}" method="POST" class="d-inline">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{% url 'contact_agent' property.id %}">
+                  <input type="hidden" name="property" value={{property.id}}>
+                  <input type="hidden" name="user" value={{request.user}}>
+                  <button type="submit" class="btn btn-sm btn-outline-secondary">Contact Details</button>
+                </form>
+              {% else %}
+                <form action="{% url 'signin' %}" method="POST" class="d-inline">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{% url 'contact_agent' property.id %}">
+                  <button type="submit" class="btn btn-sm btn-outline-secondary">Login to view contact details</button>
+                </form>
+            {% endif %}
+              <!-- <div class="btn-group">
+                <a href="{% url 'property_detail' property.id %}" class="btn btn-sm btn-outline-secondary">View</a>
+              </div> -->
+              <!-- {% if request.user.is_authenticated and request.user != prop.agent %} -->
+                
+              <!-- {% endif %} -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <p>No properties available.</p> -->
+
+  </div>
+{% endblock %}
+{% block js %} 
+<script></script>
+{% endblock %}

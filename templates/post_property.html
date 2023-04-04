@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %} Post a Property {% endblock %}
+{% block homeactive %} active {% endblock homeactive %}
+
+{% block body %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <h2 class="mb-4">Post a Property</h2>
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <div class="form-group">
+            <button type="submit" class="btn btn-primary">Post Property</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
